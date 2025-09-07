@@ -1,10 +1,12 @@
 import Image from "next/image";
+import { Button } from "antd";
 import styles from "./page.module.css";
 
 export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
+        <Button type="primary">测试按钮</Button>
         <Image
           className={styles.logo}
           src="/next.svg"
