@@ -1,8 +1,15 @@
 import Image from "next/image";
 import { Button } from "antd";
 import styles from "./page.module.css";
+import {listQuestionBankVoByPageUsingPost} from "@/api/questionBankController";
 
 export default function Home() {
+  // 测试批量获取题库功能
+  listQuestionBankVoByPageUsingPost({
+
+  }).then((res) => {
+    console.log(res)
+  })
   return (
     <div className={styles.page}>
       <main className={styles.main}>
