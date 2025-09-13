@@ -27,9 +27,12 @@ myAxios.interceptors.request.use(function (config) {
 myAxios.interceptors.response.use(function (resp) {
     const { data } = resp;
     // 未登录
+    console.log(data);
     if (data.code === 40100) {
         // 判断是否不需要拦截
-        if (!window.location.pathname.includes("/user/login")) {
+        if (!window.location.pathname.includes("/user/login") &&
+        !resp.request.responseURL.includes("user/get/login"))
+        {
             window.location.href = `/user/login/redirect=${window.location.href}`
         }
     } else if (data.code !== 0) {

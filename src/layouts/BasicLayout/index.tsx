@@ -31,6 +31,8 @@ import defaultProps from './_defaultProps';
 import css from "styled-jsx/css";
 import GlobalFooter from "@/components/GlobalFooter";
 import Image from "next/image";
+import {useSelector} from "react-redux";
+import {RootState} from "@/stores";
 
 const Item: React.FC<{ children: React.ReactNode }> = (props) => {
     const { token } = theme.useToken();
@@ -159,6 +161,9 @@ export default () => {
         splitMenus: true,
     });
 
+    // 获取当前登录用户信息
+    const loginUser = useSelector((state: RootState) => state.loginUser);
+
     const [pathname, setPathname] = useState('/list/sub-page/sub-sub-page1');
     const [num, setNum] = useState(40);
     if (typeof document === 'undefined') {
@@ -223,9 +228,9 @@ export default () => {
                             collapsedShowGroupTitle: true,
                         }}
                         avatarProps={{
-                            src: '/assets/logo.png',
+                            src: loginUser.userAvatar || '/assets/logo.png',
                             size: 'small',
-                            title: '米饭好好吃',
+                            title: loginUser.userName || '米饭好好吃',
                             render: (props, dom) => {
                                 return (
                                     <Dropdown

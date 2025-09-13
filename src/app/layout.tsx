@@ -1,11 +1,14 @@
 "use client";
 
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import BasicLayout from "@/layouts/BasicLayout";
 import React, {useCallback, useEffect} from "react";
+import {Provider, useDispatch} from "react-redux";
+import store, {AppDispatch} from "@/stores";
+import {getLoginUserUsingGet} from "@/api/userController";
+import {setLoginUser} from "@/stores/loginUser";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,13 +23,25 @@ const geistMono = Geist_Mono({
 const InitLayout: React.FC<Readonly<{
   children: React.ReactNode;
 }>> = ({children}) => {
-  const doInit = useCallback(() => {
-    console.log("欢迎来到米饭的面试刷题平台");
+  const dispatch = useDispatch<AppDispatch>();
+  const doGetUserInit = useCallback(async () => {
+    const res = await getLoginUserUsingGet();
+    console.log(res)
+    if (res.data) {
+      // 更新用户态
+      dispatch(setLoginUser(res.data));
+    } else {
+      // todo 测试代码，实际可删除
+      setTimeout(() => {
+        const testUser = { userName: "测试登录" };
+        dispatch(setLoginUser(testUser));
+      }, 3000);
+    }
   }, []);
 
   // 只执行一次
   useEffect(() => {
-    doInit();
+    doGetUserInit();
   }, [])
   return <>{children}</>
 }
@@ -40,11 +55,13 @@ export default function RootLayout({
     <html lang="zh">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <AntdRegistry>
-          <InitLayout>
-            <BasicLayout>
-              {children}
-            </BasicLayout>
-          </InitLayout>
+          <Provider store={store}>
+            <InitLayout>
+              <BasicLayout>
+                {children}
+              </BasicLayout>
+            </InitLayout>
+          </Provider>
         </AntdRegistry>
       </body>
     </html>
