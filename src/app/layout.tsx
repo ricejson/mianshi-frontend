@@ -9,6 +9,7 @@ import {Provider, useDispatch} from "react-redux";
 import store, {AppDispatch} from "@/stores";
 import {getLoginUserUsingGet} from "@/api/userController";
 import {setLoginUser} from "@/stores/loginUser";
+import {GlobalAccess} from "@/components/GlobalAccess";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,9 +58,11 @@ export default function RootLayout({
         <AntdRegistry>
           <Provider store={store}>
             <InitLayout>
-              <BasicLayout>
-                {children}
-              </BasicLayout>
+              <GlobalAccess>
+                <BasicLayout>
+                  {children}
+                </BasicLayout>
+              </GlobalAccess>
             </InitLayout>
           </Provider>
         </AntdRegistry>

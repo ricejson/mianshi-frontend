@@ -3,47 +3,53 @@ import {
     CrownFilled,
     SmileFilled,
 } from '@ant-design/icons';
+import {AccessEnum} from "@/access/accessEnum";
+import React from "react";
 
-export default {
+export interface MenuItem {
+    path: string;
+    name: string;
+    icon?: React.ReactNode
+    access?: string;
+    routes?: MenuItem[];
+}
+
+ const menus = {
     route: {
         path: '/',
         routes: [
             {
                 path: '/bank',
                 name: '题库',
+                access: AccessEnum.USER,
                 icon: <SmileFilled />,
-                component: './Welcome',
             },
             {
                 path: '/question',
                 name: '题目',
+                access: AccessEnum.USER,
                 icon: <SmileFilled />,
-                component: './Welcome',
             },
             {
                 path: '/admin',
                 name: '管理页',
                 icon: <CrownFilled />,
-                access: 'canAdmin',
-                component: './Admin',
+                access: AccessEnum.ADMIN,
                 routes: [
                     {
                         path: '/admin/sub-page1',
                         name: '一级页面',
                         icon: 'https://gw.alipayobjects.com/zos/antfincdn/upvrAjAPQX/Logo_Tech%252520UI.svg',
-                        component: './Welcome',
                     },
                     {
                         path: '/admin/sub-page2',
                         name: '二级页面',
                         icon: <CrownFilled />,
-                        component: './Welcome',
                     },
                     {
                         path: '/admin/sub-page3',
                         name: '三级页面',
                         icon: <CrownFilled />,
-                        component: './Welcome',
                     },
                 ],
             },
@@ -110,3 +116,5 @@ export default {
         },
     ],
 };
+
+ export default menus;

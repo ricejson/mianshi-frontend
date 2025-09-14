@@ -33,6 +33,7 @@ import GlobalFooter from "@/components/GlobalFooter";
 import Image from "next/image";
 import {useSelector} from "react-redux";
 import {RootState} from "@/stores";
+import {useRouter} from "next/navigation";
 
 const Item: React.FC<{ children: React.ReactNode }> = (props) => {
     const { token } = theme.useToken();
@@ -62,45 +63,7 @@ const Item: React.FC<{ children: React.ReactNode }> = (props) => {
     );
 };
 
-const List: React.FC<{ title: string; style?: React.CSSProperties }> = (
-    props,
-) => {
-    const { token } = theme.useToken();
-
-    return (
-        <div
-            style={{
-                width: '100%',
-                ...props.style,
-            }}
-        >
-            <div
-                style={{
-                    fontSize: 16,
-                    color: token.colorTextHeading,
-                    lineHeight: '24px',
-                    fontWeight: 500,
-                    marginBlockEnd: 16,
-                }}
-            >
-                {props.title}
-            </div>
-            <div
-                style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                }}
-            >
-                {new Array(6).fill(1).map((_, index) => {
-                    return <Item key={index}>具体的解决方案-{index}</Item>;
-                })}
-            </div>
-        </div>
-    );
-};
-
 const MenuCard = () => {
-    const { token } = theme.useToken();
     return (
         <div
             style={{
@@ -154,7 +117,7 @@ const SearchInput = () => {
     );
 };
 
-export default () => {
+export default ({children}) => {
     const [settings, setSetting] = useState<Partial<ProSettings> | undefined>({
         fixSiderbar: true,
         layout: 'mix',
@@ -163,6 +126,7 @@ export default () => {
 
     // 获取当前登录用户信息
     const loginUser = useSelector((state: RootState) => state.loginUser);
+    const router = useRouter();
 
     const [pathname, setPathname] = useState('/list/sub-page/sub-sub-page1');
     const [num, setNum] = useState(40);
@@ -270,10 +234,11 @@ export default () => {
                                 </>
                             );
                         }}
-                        onMenuHeaderClick={(e) => console.log(e)}
                         menuItemRender={(item, dom) => (
                             <div
                                 onClick={() => {
+                                    // 跳转到对应url
+                                    router.push(item.path || '/welcome')
                                     setPathname(item.path || '/welcome');
                                 }}
                             >
@@ -284,9 +249,6 @@ export default () => {
                         footerRender={() => {return <GlobalFooter></GlobalFooter>}}
                     >
                         <PageContainer
-                            token={{
-                                paddingInlinePageContainerContent: num,
-                            }}
                         >
                             <ProCard
                                 style={{
@@ -294,22 +256,10 @@ export default () => {
                                     minHeight: 800,
                                 }}
                             >
+                                {children}
                                 <div />
                             </ProCard>
                         </PageContainer>
-
-                        <SettingDrawer
-                            pathname={pathname}
-                            enableDarkTheme
-                            getContainer={(e: any) => {
-                                return document.getElementById('test-pro-layout');
-                            }}
-                            settings={settings}
-                            onSettingChange={(changeSetting) => {
-                                setSetting(changeSetting);
-                            }}
-                            disableUrlParams={false}
-                        />
                     </ProLayout>
                 </ConfigProvider>
             </ProConfigProvider>
