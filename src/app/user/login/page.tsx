@@ -26,7 +26,7 @@ const LoginPage = () => {
             <div>
                 <LoginForm
                     logo="https://github.githubassets.com/favicons/favicon.png"
-                    title="面试刷题平台"
+                    title="用户登录"
                     subTitle="可能是世界上最好的面试刷题平台"
                     form={form}
                     onFinish={async (values: API.UserLoginRequest) => {
