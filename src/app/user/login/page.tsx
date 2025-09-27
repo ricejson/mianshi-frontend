@@ -2,7 +2,7 @@
 
 import {LockOutlined, MobileOutlined, UserOutlined,} from '@ant-design/icons';
 import {LoginForm, ProConfigProvider, ProFormCaptcha, ProFormCheckbox, ProFormText,} from '@ant-design/pro-components';
-import {message, Tabs} from 'antd';
+import {Tabs} from 'antd';
 import {useState} from 'react';
 import {userLoginUsingPost} from "@/api/userController";
 import {useRouter} from "next/navigation";
@@ -10,6 +10,7 @@ import {useDispatch} from "react-redux";
 import {AppDispatch} from "@/stores";
 import {setLoginUser} from "@/stores/loginUser";
 import {ProForm} from "@ant-design/pro-form/lib";
+import useApp from "antd/es/app/useApp";
 
 type LoginType = 'phone' | 'account';
 
@@ -18,6 +19,7 @@ const LoginPage = () => {
     const [loginType, setLoginType] = useState<LoginType>('account');
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
+    const {message} = useApp();
 
     return (
         <ProConfigProvider hashed={false}>

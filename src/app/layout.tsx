@@ -10,6 +10,7 @@ import store, {AppDispatch} from "@/stores";
 import {getLoginUserUsingGet} from "@/api/userController";
 import {setLoginUser} from "@/stores/loginUser";
 import {GlobalAccess} from "@/components/GlobalAccess";
+import {App as AntdApp} from 'antd'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -55,17 +56,19 @@ export default function RootLayout({
   return (
     <html lang="zh">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <AntdRegistry>
-          <Provider store={store}>
-            <InitLayout>
-              <GlobalAccess>
-                <BasicLayout>
-                  {children}
-                </BasicLayout>
-              </GlobalAccess>
-            </InitLayout>
-          </Provider>
-        </AntdRegistry>
+        <AntdApp>
+          <AntdRegistry>
+            <Provider store={store}>
+              <InitLayout>
+                <GlobalAccess>
+                  <BasicLayout>
+                    {children}
+                  </BasicLayout>
+                </GlobalAccess>
+              </InitLayout>
+            </Provider>
+          </AntdRegistry>
+        </AntdApp>
       </body>
     </html>
   );
