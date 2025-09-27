@@ -24,6 +24,11 @@ export interface MenuItem {
                 access: AccessEnum.NOT_LOGIN,
             },
             {
+                path: '/user/register',
+                name: '注册',
+                access: AccessEnum.NOT_LOGIN,
+            },
+            {
                 path: '/bank',
                 name: '题库',
                 access: AccessEnum.USER,

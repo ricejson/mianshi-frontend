@@ -37,7 +37,6 @@ myAxios.interceptors.response.use(function (resp) {
         }
     } else if (data.code !== 0) {
         // 其他错误
-        throw new Error(data.message ?? "服务器错误");
     }
     return data;
 }, function (error) {
