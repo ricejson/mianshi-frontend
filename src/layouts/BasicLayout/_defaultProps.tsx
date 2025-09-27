@@ -8,7 +8,7 @@ import React from "react";
 
 export interface MenuItem {
     path: string;
-    name: string;
+    name?: string;
     icon?: React.ReactNode
     access?: string;
     routes?: MenuItem[];
@@ -18,6 +18,11 @@ export interface MenuItem {
     route: {
         path: '/',
         routes: [
+            {
+                path: '/user/login',
+                name: '登录',
+                access: AccessEnum.NOT_LOGIN,
+            },
             {
                 path: '/bank',
                 name: '题库',

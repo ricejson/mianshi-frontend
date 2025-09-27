@@ -9,7 +9,6 @@ export default function findMenuItemByPath(path: string, menus: MenuItem[]): Men
         return undefined;
     }
     for (let item: MenuItem of menus) {
-        console.log("item: " + item);
         if (item.path === path) {
             // 找到了
             return item;
