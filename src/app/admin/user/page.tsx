@@ -1,5 +1,5 @@
 "use client";
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 
 import "./index.css"
 
@@ -8,6 +8,7 @@ import type {ActionType, ProColumns} from '@ant-design/pro-components';
 import {ProTable, TableDropdown} from '@ant-design/pro-components';
 import {Button, Space} from 'antd';
 import {listUserByPageUsingPost} from "@/api/userController";
+import CreateModal from "@/app/admin/user/component/createModal";
 
 const columns: ProColumns<API.User>[] = [
     {
@@ -28,7 +29,13 @@ const columns: ProColumns<API.User>[] = [
             </Space>
         ),
         hideInSearch: true,
-        hideInForm: true,
+    },
+    {
+        title: '账号',
+        dataIndex: 'userAccount',
+        valueType: 'text',
+        copyable: true,
+        ellipsis: true,
     },
     {
         title: '昵称',
@@ -58,6 +65,8 @@ const columns: ProColumns<API.User>[] = [
         valueType: 'date',
         sorter: true,
         search: false,
+        hideInForm: true,
+        hideInSearch: true,
     },
     {
         title: '更新时间',
@@ -66,6 +75,8 @@ const columns: ProColumns<API.User>[] = [
         valueType: 'date',
         sorter: true,
         search: false,
+        hideInForm: true,
+        hideInSearch: true,
     },
     {
         title: '操作',
@@ -73,89 +84,103 @@ const columns: ProColumns<API.User>[] = [
         key: 'option',
         render: (text, record, _, action) => [
             <a
-                key="editable"
+                key="edit"
                 onClick={() => {
                     action?.startEditable?.(record.id);
                 }}
             >
                 修改
             </a>,
-            <a href={record.url} target="_blank" rel="noopener noreferrer" key="view">
+            <a
+                key="delete"
+                onClick={() => {
+
+                }}
+            >
                 删除
             </a>,
-            <TableDropdown
-                key="actionGroup"
-                onSelect={() => action?.reload()}
-                menus={[
-                    { key: 'copy', name: 'Copy' },
-                    { key: 'delete', name: 'Delete' },
-                ]}
-            />,
         ],
     },
 ];
 
 export default () => {
+    const [createModelOpen, setCreateModalOpen] = useState<boolean>(false);
+    const actionRef = useRef<ActionType>();
     return (
-        <ProTable
-            columns={columns}
-            cardBordered
-            request={async (params: API.UserQueryRequest, sort, filter) => {
-                const res = await listUserByPageUsingPost(params);
-                console.log(res)
-                if (res && res?.code === 0) {
+        <div>
+            <ProTable
+                columns={columns}
+                cardBordered
+                actionRef={actionRef}
+                request={async (params: API.UserQueryRequest, sort, filter) => {
+                    const res = await listUserByPageUsingPost(params);
+                    console.log(res)
+                    if (res && res?.code === 0) {
+                        return {
+                            data: res.data?.records || [],
+                            success: true,
+                            total: res.data?.total || 0,
+                        };
+                    }
                     return {
-                        data: res.data?.records || [],
-                        success: true,
-                        total: res.data?.total || 0,
+                        data: [],
+                        success: false,
+                        total: 0,
                     };
-                }
-                return {
-                    data: [],
-                    success: false,
-                    total: 0,
-                };
-            }}
-            editable={{
-                type: 'multiple',
-            }}
-            columnsState={{
-                persistenceKey: 'pro-table-singe-demos',
-                persistenceType: 'localStorage',
-                defaultValue: {
-                    option: {fixed: 'right', disable: true},
-                },
-                onChange(value) {
-                    console.log('value: ', value);
-                },
-            }}
-            rowKey="id"
-            search={{
-                labelWidth: 'auto',
-            }}
-            options={{
-                setting: {
-                    listsHeight: 400,
-                },
-            }}
-            pagination={{
-                pageSize: 5,
-                onChange: (page) => console.log(page),
-            }}
-            dateFormatter="string"
-            headerTitle="用户列表"
-            toolBarRender={() => [
-                <Button
-                    key="button"
-                    icon={<PlusOutlined/>}
-                    onClick={() => {
-                        actionRef.current?.reload();
-                    }}
-                    type="primary"
-                >
-                    创建
-                </Button>,
-            ]}
-        />
+                }}
+                editable={{
+                    type: 'multiple',
+                }}
+                columnsState={{
+                    persistenceKey: 'pro-table-singe-demos',
+                    persistenceType: 'localStorage',
+                    defaultValue: {
+                        option: {fixed: 'right', disable: true},
+                    },
+                    onChange(value) {
+                        console.log('value: ', value);
+                    },
+                }}
+                rowKey="id"
+                search={{
+                    labelWidth: 'auto',
+                }}
+                options={{
+                    setting: {
+                        listsHeight: 400,
+                    },
+                }}
+                pagination={{
+                    pageSize: 5,
+                    onChange: (page) => console.log(page),
+                }}
+                dateFormatter="string"
+                headerTitle="用户列表"
+                toolBarRender={() => [
+                    <Button
+                        key="button"
+                        icon={<PlusOutlined/>}
+                        onClick={() => {
+                            setCreateModalOpen(true);
+                        }}
+                        type="primary"
+                    >
+                        创建
+                    </Button>,
+                ]}
+            />
+            <CreateModal
+                columns={columns}
+                visible={createModelOpen}
+                onCancel={() => {
+                    setCreateModalOpen(false)
+                }}
+                onSubmit={() => {
+                    setCreateModalOpen(false);
+                    // 重新加载数据
+                    actionRef.current?.reload();
+                }}
+            />
+        </div>
     );
 }
