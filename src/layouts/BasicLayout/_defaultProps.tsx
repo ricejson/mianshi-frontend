@@ -19,13 +19,15 @@ export interface MenuItem {
         path: '/',
         routes: [
             {
+                path: '/',
+                access: AccessEnum.NOT_LOGIN,
+            },
+            {
                 path: '/user/login',
-                name: '登录',
                 access: AccessEnum.NOT_LOGIN,
             },
             {
                 path: '/user/register',
-                name: '注册',
                 access: AccessEnum.NOT_LOGIN,
             },
             {
