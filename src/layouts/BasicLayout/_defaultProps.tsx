@@ -49,18 +49,19 @@ export interface MenuItem {
                 access: AccessEnum.ADMIN,
                 routes: [
                     {
-                        path: '/admin/sub-page1',
-                        name: '一级页面',
+                        path: '/admin/user',
+                        name: '用户管理',
                         icon: 'https://gw.alipayobjects.com/zos/antfincdn/upvrAjAPQX/Logo_Tech%252520UI.svg',
+                        access: AccessEnum.ADMIN,
                     },
                     {
-                        path: '/admin/sub-page2',
-                        name: '二级页面',
+                        path: '/admin/bank',
+                        name: '题库管理',
                         icon: <CrownFilled />,
                     },
                     {
-                        path: '/admin/sub-page3',
-                        name: '三级页面',
+                        path: '/admin/question',
+                        name: '题目管理',
                         icon: <CrownFilled />,
                     },
                 ],
