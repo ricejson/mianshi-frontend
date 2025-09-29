@@ -7,14 +7,32 @@ import {PlusOutlined} from '@ant-design/icons';
 import type {ActionType, ProColumns} from '@ant-design/pro-components';
 import {ProTable, TableDropdown} from '@ant-design/pro-components';
 import {Button, Space} from 'antd';
-import {listUserByPageUsingPost} from "@/api/userController";
+import {deleteUserUsingPost, listUserByPageUsingPost} from "@/api/userController";
 import CreateModal from "@/app/admin/user/component/createModal";
 import UpdateModal from "@/app/admin/user/component/updateModal";
+import useApp from "antd/es/app/useApp";
 
 export default () => {
     const [createModelOpen, setCreateModalOpen] = useState<boolean>(false);
     const [updateModelOpen, setUpdateModalOpen] = useState<boolean>(false);
     const [currentUser, setCurrentUser] = useState<API.User>(null);
+
+    const { message } = useApp();
+
+    const handleDelete = async (values: API.DeleteRequest) => {
+        const res = await deleteUserUsingPost(values);
+        try {
+            if (res && res.code === 0) {
+                message.success('删除成功！');
+                return true;
+            } else {
+                throw new Error('删除失败！' + res.message);
+            }
+        } catch (e) {
+            message.error(e.message);
+            return false;
+        }
+    }
 
     const columns: ProColumns<API.User>[] = [
         {
@@ -100,8 +118,11 @@ export default () => {
                 </a>,
                 <a
                     key="delete"
-                    onClick={() => {
-
+                    onClick={async () => {
+                        const success = await handleDelete(record);
+                        if (success) {
+                            actionRef.current?.reload();
+                        }
                     }}
                 >
                     删除
