@@ -9,102 +9,107 @@ import {ProTable, TableDropdown} from '@ant-design/pro-components';
 import {Button, Space} from 'antd';
 import {listUserByPageUsingPost} from "@/api/userController";
 import CreateModal from "@/app/admin/user/component/createModal";
-
-const columns: ProColumns<API.User>[] = [
-    {
-        title: 'ID',
-        dataIndex: 'id',
-        valueType: 'text',
-        width: 48,
-        hideInSearch: true,
-        hideInForm: true,
-    },
-    {
-        title: '头像',
-        dataIndex: 'userAvatar',
-        valueType: 'avatar',
-        render: (dom) => (
-            <Space>
-                <span>{dom}</span>
-            </Space>
-        ),
-        hideInSearch: true,
-    },
-    {
-        title: '账号',
-        dataIndex: 'userAccount',
-        valueType: 'text',
-        copyable: true,
-        ellipsis: true,
-    },
-    {
-        title: '昵称',
-        dataIndex: 'userName',
-        valueType: 'text',
-        copyable: true,
-        ellipsis: true,
-    },
-    {
-        title: '简介',
-        dataIndex: 'userProfile',
-        valueType: 'text',
-        ellipsis: true,
-    },
-    {
-        title: '角色',
-        dataIndex: 'userRole',
-        valueEnum: {
-            "admin": "管理员",
-            "user": "普通用户",
-        },
-    },
-    {
-        title: '创建时间',
-        key: 'createTime',
-        dataIndex: 'createTime',
-        valueType: 'date',
-        sorter: true,
-        search: false,
-        hideInForm: true,
-        hideInSearch: true,
-    },
-    {
-        title: '更新时间',
-        key: 'updateTime',
-        dataIndex: 'updateTime',
-        valueType: 'date',
-        sorter: true,
-        search: false,
-        hideInForm: true,
-        hideInSearch: true,
-    },
-    {
-        title: '操作',
-        valueType: 'option',
-        key: 'option',
-        render: (text, record, _, action) => [
-            <a
-                key="edit"
-                onClick={() => {
-                    action?.startEditable?.(record.id);
-                }}
-            >
-                修改
-            </a>,
-            <a
-                key="delete"
-                onClick={() => {
-
-                }}
-            >
-                删除
-            </a>,
-        ],
-    },
-];
+import UpdateModal from "@/app/admin/user/component/updateModal";
 
 export default () => {
     const [createModelOpen, setCreateModalOpen] = useState<boolean>(false);
+    const [updateModelOpen, setUpdateModalOpen] = useState<boolean>(false);
+    const [currentUser, setCurrentUser] = useState<API.User>(null);
+
+    const columns: ProColumns<API.User>[] = [
+        {
+            title: 'ID',
+            dataIndex: 'id',
+            valueType: 'text',
+            width: 48,
+            hideInSearch: true,
+            hideInForm: true,
+        },
+        {
+            title: '头像',
+            dataIndex: 'userAvatar',
+            valueType: 'avatar',
+            render: (dom) => (
+                <Space>
+                    <span>{dom}</span>
+                </Space>
+            ),
+            hideInSearch: true,
+        },
+        {
+            title: '账号',
+            dataIndex: 'userAccount',
+            valueType: 'text',
+            copyable: true,
+            ellipsis: true,
+        },
+        {
+            title: '昵称',
+            dataIndex: 'userName',
+            valueType: 'text',
+            copyable: true,
+            ellipsis: true,
+        },
+        {
+            title: '简介',
+            dataIndex: 'userProfile',
+            valueType: 'text',
+            ellipsis: true,
+        },
+        {
+            title: '角色',
+            dataIndex: 'userRole',
+            valueEnum: {
+                "admin": "管理员",
+                "user": "普通用户",
+            },
+        },
+        {
+            title: '创建时间',
+            key: 'createTime',
+            dataIndex: 'createTime',
+            valueType: 'date',
+            sorter: true,
+            search: false,
+            hideInForm: true,
+            hideInSearch: true,
+        },
+        {
+            title: '更新时间',
+            key: 'updateTime',
+            dataIndex: 'updateTime',
+            valueType: 'date',
+            sorter: true,
+            search: false,
+            hideInForm: true,
+            hideInSearch: true,
+        },
+        {
+            title: '操作',
+            valueType: 'option',
+            key: 'option',
+            render: (text, record, _, action) => [
+                <a
+                    key="edit"
+                    onClick={() => {
+                        setCurrentUser(record);
+                        setUpdateModalOpen(true);
+                    }}
+                >
+                    修改
+                </a>,
+                <a
+                    key="delete"
+                    onClick={() => {
+
+                    }}
+                >
+                    删除
+                </a>,
+            ],
+        },
+    ];
+
     const actionRef = useRef<ActionType>();
     return (
         <div>
@@ -181,6 +186,19 @@ export default () => {
                     actionRef.current?.reload();
                 }}
             />
+            <UpdateModal
+                oldData={currentUser}
+                columns={columns}
+                visible={updateModelOpen}
+                onCancel={() => {
+                    setUpdateModalOpen(false);
+                }}
+                onSubmit={() => {
+                    setUpdateModalOpen(false);
+                    actionRef.current?.reload();
+                }}
+            />
+
         </div>
     );
 }
