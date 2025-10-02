@@ -64,6 +64,7 @@ export interface MenuItem {
                         path: '/admin/question',
                         name: '题目管理',
                         icon: <CrownFilled />,
+                        access: AccessEnum.ADMIN,
                     },
                 ],
             },
