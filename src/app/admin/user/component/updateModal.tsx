@@ -38,6 +38,7 @@ const UpdateModal: React.FC = (props: Props) => {
             title={"更新用户"}
             footer={null}
             open={props.visible}
+            onCancel={props?.onCancel}
         >
             <ProTable
                 type={"form"}
@@ -45,7 +46,6 @@ const UpdateModal: React.FC = (props: Props) => {
                 form={{
                     initialValues: props.oldData
                 }}
-                onCancel={props?.onCancel}
                 onSubmit={async (values: API.UserUpdateRequest) => {
                     console.log(values);
                     const success = await handleUpdate({
