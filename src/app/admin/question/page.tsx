@@ -6,7 +6,7 @@ import "./index.css"
 import {PlusOutlined} from '@ant-design/icons';
 import type {ActionType, ProColumns} from '@ant-design/pro-components';
 import {ProTable, TableDropdown} from '@ant-design/pro-components';
-import {Button, Space} from 'antd';
+import {Button, Space, Tag} from 'antd';
 import {deleteUserUsingPost, listUserByPageUsingPost} from "@/api/userController";
 import CreateModal from "@/app/admin/user/component/createModal";
 import UpdateModal from "@/app/admin/user/component/updateModal";
@@ -66,6 +66,13 @@ export default () => {
             title: '标签',
             dataIndex: 'tags',
             valueType: 'text',
+            render: (text, record, _, action) => {
+                // 解析json标签数据
+                const tags = JSON.parse(text);
+                return (
+                    tags.map((tag) => <Tag>{tag}</Tag>)
+                )
+            },
         },
         {
             title: '创建用户',
