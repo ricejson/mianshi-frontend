@@ -33,7 +33,7 @@ import GlobalFooter from "@/components/GlobalFooter";
 import Image from "next/image";
 import {useSelector} from "react-redux";
 import {RootState} from "@/stores";
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 
 const Item: React.FC<{ children: React.ReactNode }> = (props) => {
     const { token } = theme.useToken();

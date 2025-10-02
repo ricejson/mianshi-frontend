@@ -28,6 +28,8 @@ export const GlobalAccess: React.FC<Readonly<{
     }
     if (!checkAccess(loginUser, menuItem.access)) {
         // 权限不符合要求
+        console.log("当前用户权限:" + JSON.stringify(loginUser));
+        console.log("当前菜单: " + menuItem);
         return <Forbidden />
     }
     return <>{children}</>

@@ -28,7 +28,6 @@ const InitLayout: React.FC<Readonly<{
   const dispatch = useDispatch<AppDispatch>();
   const doGetUserInit = useCallback(async () => {
     const res = await getLoginUserUsingGet();
-    console.log(res)
     if (res.data) {
       // 更新用户态
       dispatch(setLoginUser(res.data));
