@@ -12,6 +12,7 @@ import CreateModal from "@/app/admin/user/component/createModal";
 import UpdateModal from "@/app/admin/user/component/updateModal";
 import useApp from "antd/es/app/useApp";
 import {deleteQuestionUsingPost, listQuestionByPageUsingPost} from "@/api/questionController";
+import MyEditor from "@/components/MyEditor";
 
 export default () => {
     const [createModelOpen, setCreateModalOpen] = useState<boolean>(false);
@@ -55,6 +56,17 @@ export default () => {
             dataIndex: 'content',
             valueType: 'text',
             ellipsis: true,
+            hideInSearch: true,
+            renderFormItem: (item,{ type, defaultRender, formItemProps, fieldProps, ...rest },form) => {
+                // 搜索表单渲染
+                // value 和 onchange 会自动传递
+                return (
+                    <MyEditor
+                        {...fieldProps}
+                    >
+                    </MyEditor>
+                )
+            }
         },
         {
             title: '答案',
