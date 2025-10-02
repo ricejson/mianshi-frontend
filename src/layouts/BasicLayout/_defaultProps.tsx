@@ -58,6 +58,7 @@ export interface MenuItem {
                         path: '/admin/bank',
                         name: '题库管理',
                         icon: <CrownFilled />,
+                        access: AccessEnum.ADMIN,
                     },
                     {
                         path: '/admin/question',
