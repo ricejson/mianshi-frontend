@@ -1,104 +1,51 @@
-import Image from "next/image";
-import { Button } from "antd";
-import styles from "./page.module.css";
+"use server"; // 服务端渲染
+import "./page.module.css";
+import Title from "antd/es/typography/Title";
+import {Divider, Flex} from 'antd';
+import Link from "next/link";
 import {listQuestionBankVoByPageUsingPost} from "@/api/questionBankController";
+import BankList from "@/components/BankList";
 
-export default function Home() {
-  // 测试批量获取题库功能
-  listQuestionBankVoByPageUsingPost({
+export default async function Home() {
+    let bankList = [];
+    try {
+        const res = await listQuestionBankVoByPageUsingPost({
+            pageSize: 12,
+            sortField: 'createTime',
+            sortOrder: 'desc',
+        })
+        if (res && res.code === 0) {
+            bankList = res.data.records ?? [];
+        } else {
+            throw new Error('获取题库失败！' + res?.message);
+        }
+    } catch (e) {
 
-  }).then((res) => {
-    console.log(res)
-  })
+    }
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Button type="primary">测试按钮</Button>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      <div id={"home-page"}>
+        <Flex justify={"space-between"} align={"center"}>
+          <Title
+              level={3}
           >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
+            最新题库
+          </Title>
+          <Link href={"/bank"}>查看更多</Link>
+        </Flex>
+        <BankList bankList={bankList}></BankList>
+        <Divider></Divider>
+        <Flex justify={"space-between"} align={"center"}>
+          <Title
+              level={3}
           >
-            Read our docs
-          </a>
+            最新题目
+          </Title>
+          <Link href={"/question"}>查看更多</Link>
+        </Flex>
+        <div>
+          题目列表
         </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+
   );
 }

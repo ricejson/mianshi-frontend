@@ -495,11 +495,11 @@ declare namespace API {
   };
 
   type QuestionBankVO = {
-    content?: string;
+    description?: string;
     createTime?: string;
     id?: number;
-    tagList?: string[];
     title?: string;
+    picture?: string;
     updateTime?: string;
     user?: UserVO;
     userId?: number;
