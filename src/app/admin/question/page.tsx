@@ -13,6 +13,7 @@ import UpdateModal from "@/app/admin/user/component/updateModal";
 import useApp from "antd/es/app/useApp";
 import {deleteQuestionUsingPost, listQuestionByPageUsingPost} from "@/api/questionController";
 import MyEditor from "@/components/MyEditor";
+import TagList from "@/components/TagList";
 
 export default () => {
     const [createModelOpen, setCreateModalOpen] = useState<boolean>(false);
@@ -81,9 +82,7 @@ export default () => {
             render: (text, record, _, action) => {
                 // 解析json标签数据
                 const tags = JSON.parse(text);
-                return (
-                    tags.map((tag) => <Tag>{tag}</Tag>)
-                )
+                return <TagList tagList={tags}></TagList>
             },
         },
         {
