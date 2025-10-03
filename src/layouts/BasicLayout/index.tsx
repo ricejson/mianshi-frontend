@@ -87,8 +87,8 @@ export default ({children}) => {
                             <Image
                                 src={"/assets/logo.png"}
                                 alt={"面试刷题平台"}
-                                width={32}
-                                height={32}
+                                width={36}
+                                height={36}
                             />
                         }
                         prefixCls="my-prefix"
