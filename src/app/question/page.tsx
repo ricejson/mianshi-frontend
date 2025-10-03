@@ -3,13 +3,15 @@ import "./index.css";
 import {listQuestionVoByPageUsingPost} from "@/api/questionController";
 import QuestionTable from "@/components/QuestionTable";
 
-export default async function QuestionPage() {
+export default async function QuestionPage({searchParams}) {
+    const { q: searchText } = searchParams;
     let defaultQuestionList = [];
     try {
         const res = await listQuestionVoByPageUsingPost({
             sortField: 'createTime',
             sortOrder: 'descend',
             pageSize: 200,
+            title: searchText,
         });
         if (res && res.code === 0) {
             defaultQuestionList = res.data?.records ?? [];
@@ -22,7 +24,7 @@ export default async function QuestionPage() {
     }
     return (
         <div id={"question-table"}>
-            <QuestionTable defaultQuestionList={defaultQuestionList}></QuestionTable>
+            <QuestionTable defaultQuestionList={defaultQuestionList} searchText={searchText}></QuestionTable>
         </div>
     )
 }

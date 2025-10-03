@@ -1,67 +1,17 @@
 "use client";
 
-import {
-    DoubleRightOutlined,
-    GithubFilled,
-    InfoCircleFilled,
-    LogoutOutlined,
-    PlusCircleFilled,
-    QuestionCircleFilled,
-    SearchOutlined,
-} from '@ant-design/icons';
-import type { ProSettings } from '@ant-design/pro-components';
-import {
-    PageContainer,
-    ProCard,
-    ProConfigProvider,
-    ProLayout,
-    SettingDrawer,
-} from '@ant-design/pro-components';
-import {
-    Button,
-    ConfigProvider,
-    Divider,
-    Dropdown,
-    Input,
-    Popover,
-    theme,
-} from 'antd';
-import React, { useState } from 'react';
+import {GithubFilled, LogoutOutlined,} from '@ant-design/icons';
+import type {ProSettings} from '@ant-design/pro-components';
+import {PageContainer, ProCard, ProConfigProvider, ProLayout,} from '@ant-design/pro-components';
+import {ConfigProvider, Divider, Dropdown, Input,} from 'antd';
+import React, {useState} from 'react';
 import defaultProps from './_defaultProps';
-import css from "styled-jsx/css";
 import GlobalFooter from "@/components/GlobalFooter";
 import Image from "next/image";
 import {useSelector} from "react-redux";
 import {RootState} from "@/stores";
-import {usePathname, useRouter} from "next/navigation";
-
-const Item: React.FC<{ children: React.ReactNode }> = (props) => {
-    const { token } = theme.useToken();
-    return (
-        <div
-            className={css`
-        color: ${token.colorTextSecondary};
-        font-size: 14px;
-        cursor: pointer;
-        line-height: 22px;
-        margin-bottom: 8px;
-        &:hover {
-          color: ${token.colorPrimary};
-        }
-      `}
-            style={{
-                width: '33.33%',
-            }}
-        >
-            {props.children}
-            <DoubleRightOutlined
-                style={{
-                    marginInlineStart: 4,
-                }}
-            />
-        </div>
-    );
-};
+import {useRouter} from "next/navigation";
+import Search from "antd/es/input/Search";
 
 const MenuCard = () => {
     return (
@@ -82,7 +32,7 @@ const MenuCard = () => {
 };
 
 const SearchInput = () => {
-    const { token } = theme.useToken();
+    const router = useRouter();
     return (
         <div
             key="SearchOutlined"
@@ -92,27 +42,11 @@ const SearchInput = () => {
                 alignItems: 'center',
                 marginInlineEnd: 24,
             }}
-            onMouseDown={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-            }}
         >
-            <Input
-                style={{
-                    borderRadius: 4,
-                    marginInlineEnd: 12,
-                    backgroundColor: token.colorBgTextHover,
-                }}
-                prefix={
-                    <SearchOutlined
-                        style={{
-                            color: token.colorTextLightSolid,
-                        }}
-                    />
-                }
-                placeholder="搜索题目"
-                variant="borderless"
-            />
+            <Search onSearch={(searchText) => {
+                router.push(`/question?q=${searchText}`);
+            }}>
+            </Search>
         </div>
     );
 };
@@ -216,7 +150,7 @@ export default ({children}) => {
                         actionsRender={(props) => {
                             if (props.isMobile) return [];
                             return [
-                                <SearchInput key="search" />,
+                                <SearchInput key="search"/>,
                                 <GithubFilled key="GithubFilled" />,
                             ];
                         }}

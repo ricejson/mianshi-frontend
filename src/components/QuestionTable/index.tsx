@@ -4,16 +4,18 @@ import React, {useEffect, useRef, useState} from "react";
 import {ActionType, ProColumns, ProTable} from "@ant-design/pro-components";
 import {listQuestionVoByPageUsingPost} from "@/api/questionController";
 import TagList from "@/components/TagList";
+import {Form} from "antd";
 
 interface Props {
     defaultQuestionList: API.QuestionVO[]
+    searchText?: string
 }
 
 const QuestionTable: React.FC = (props: Props) => {
     const [questionList, setQuestionList] = useState<API.QuestionVO[]>([]);
     // 是否第一次渲染（走默认）
     const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
-    const { defaultQuestionList } = props;
+    const { defaultQuestionList, searchText } = props;
     useEffect(() => {
         if (defaultQuestionList && defaultQuestionList.length > 0) {
             setQuestionList(defaultQuestionList);
@@ -45,6 +47,11 @@ const QuestionTable: React.FC = (props: Props) => {
                 cardBordered
                 actionRef={actionRef}
                 dataSource={questionList}
+                form={{
+                    initialValues: {
+                        title: searchText,
+                    }
+                }}
                 request={async (params: API.QuestionQueryRequest, sort, filter) => {
                     if (isFirstLoad && defaultQuestionList && defaultQuestionList.length > 0) {
                         setIsFirstLoad(false);
