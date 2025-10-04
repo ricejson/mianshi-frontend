@@ -5,7 +5,7 @@ import axios from "axios";
  * @author ricejson
  */
 const myAxios = axios.create({
-    baseURL: "https://mianshi-backend-107148-4-1326559147.sh.run.tcloudbase.com:8101",
+    baseURL: "https://mianshi-backend-107148-4-1326559147.sh.run.tcloudbase.com",
     timeout: 10000,
     withCredentials: true, // 携带cookie参数
 })
