@@ -89,6 +89,9 @@ export default ({children}) => {
                                 alt={"面试刷题平台"}
                                 width={36}
                                 height={36}
+                                onClick={() => {
+                                    router.push('/');
+                                }}
                             />
                         }
                         prefixCls="my-prefix"
