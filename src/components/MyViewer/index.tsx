@@ -1,5 +1,5 @@
 import React from "react";
-import {Editor} from "@bytemd/react";
+import {Editor, Viewer} from "@bytemd/react";
 import gfm from "@bytemd/plugin-gfm";
 import highlight from "@bytemd/plugin-highlight";
 // 样式不要忘了
@@ -21,11 +21,11 @@ const MyViewer: React.FC = (props: Props) => {
     const { value = "" } = props;
     return (
         <div className={"my-viewer"}>
-            <Editor
+            <Viewer
                 plugins={plugins}
                 value={value}
             >
-            </Editor>
+            </Viewer>
         </div>
     )
 }

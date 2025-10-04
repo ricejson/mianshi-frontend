@@ -534,6 +534,7 @@ declare namespace API {
   };
 
   type QuestionVO = {
+    answer?: string;
     content?: string;
     createTime?: string;
     id?: number;

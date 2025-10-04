@@ -33,7 +33,7 @@ myAxios.interceptors.response.use(function (resp) {
         if (!window.location.pathname.includes("/user/login") &&
         !resp.request.responseURL.includes("user/get/login"))
         {
-            window.location.href = `/user/login/redirect=${window.location.href}`
+            window.location.href = `/user/login?redirect=${window.location.href}`
         }
     } else if (data.code !== 0) {
         // 其他错误
