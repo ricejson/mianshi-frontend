@@ -9,7 +9,8 @@ export default function findMenuItemByPath(path: string, menus: MenuItem[]): Men
         return undefined;
     }
     for (let item: MenuItem of menus) {
-        if (item.path === path) {
+        // TODO: 暂时解决动态匹配子路由的问题
+        if (path.startsWith(item.path)) {
             // 找到了
             return item;
         }
