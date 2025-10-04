@@ -5,6 +5,7 @@ import {ActionType, ProColumns, ProTable} from "@ant-design/pro-components";
 import {listQuestionVoByPageUsingPost} from "@/api/questionController";
 import TagList from "@/components/TagList";
 import {Form} from "antd";
+import Link from "next/link";
 
 interface Props {
     defaultQuestionList: API.QuestionVO[]
@@ -27,6 +28,9 @@ const QuestionTable: React.FC = (props: Props) => {
             dataIndex: 'title',
             valueType: 'text',
             ellipsis: true,
+            render: (text, record, _, action) => {
+                return <Link href={`/question/${record.id}`}>{record.title}</Link>
+            },
         },
         {
             title: '标签',
