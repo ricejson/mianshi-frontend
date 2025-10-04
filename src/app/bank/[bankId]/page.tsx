@@ -1,7 +1,7 @@
 "use server";
 import './index.css';
-import React from "react";
-import {Avatar, Card} from "antd";
+import React, from "react";
+import {Avatar, Button, Card} from "antd";
 import {getQuestionBankVoByIdUsingGet} from "@/api/questionBankController";
 import Meta from "antd/es/card/Meta";
 import QuestionList from "@/components/QuestionList";
@@ -10,6 +10,7 @@ import Paragraph from "antd/es/typography/Paragraph";
 
 const BankDetailPage: React.FC = async (props) => {
     const { bankId } = await props.params;
+    let firstQuestionId = undefined;
     // 根据bankId获取题库详情（关联题目列表）
     let questionBank = undefined;
     try {
@@ -19,6 +20,9 @@ const BankDetailPage: React.FC = async (props) => {
         });
         if (res && res.code === 0) {
             questionBank = res.data;
+            if (questionBank && questionBank.questionList && questionBank.questionList.length > 0) {
+                firstQuestionId = questionBank.questionList[0].id
+            }
         } else {
             throw new Error('获取题库详情失败！' + res.message);
         }
@@ -31,7 +35,22 @@ const BankDetailPage: React.FC = async (props) => {
                 <Meta
                     avatar={<Avatar src={questionBank.picture} size={72}/>}
                     title={<Title level={3} style={{marginBottom: 0}}>{questionBank.title}</Title>}
-                    description={<Paragraph type={"secondary"}>{questionBank.description}</Paragraph>}
+                    description={
+                        <>
+                            <Paragraph type={"secondary"}>
+                                {questionBank.description}
+                            </Paragraph>
+                            <Button
+                                type={"primary"}
+                                disabled={!firstQuestionId}
+                                shape={"round"}
+                                href={`/bank/${questionBank.id}/question/${firstQuestionId}`}
+                                target={"_blank"}
+                            >
+                                开始刷题
+                            </Button>
+                        </>
+                    }
                 >
                 </Meta>
             </Card>
