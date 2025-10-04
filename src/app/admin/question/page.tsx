@@ -7,13 +7,12 @@ import {PlusOutlined} from '@ant-design/icons';
 import type {ActionType, ProColumns} from '@ant-design/pro-components';
 import {ProTable, TableDropdown} from '@ant-design/pro-components';
 import {Button, Space, Tag} from 'antd';
-import {deleteUserUsingPost, listUserByPageUsingPost} from "@/api/userController";
-import CreateModal from "@/app/admin/user/component/createModal";
-import UpdateModal from "@/app/admin/user/component/updateModal";
 import useApp from "antd/es/app/useApp";
 import {deleteQuestionUsingPost, listQuestionByPageUsingPost} from "@/api/questionController";
 import MyEditor from "@/components/MyEditor";
 import TagList from "@/components/TagList";
+import UpdateModal from "@/app/admin/question/component/updateModal";
+import CreateModal from "@/app/admin/question/component/createModal";
 
 export default () => {
     const [createModelOpen, setCreateModalOpen] = useState<boolean>(false);
@@ -73,7 +72,18 @@ export default () => {
             title: '答案',
             dataIndex: 'answer',
             valueType: 'text',
+            hideInSearch: true,
             ellipsis: true,
+            renderFormItem: (item,{ type, defaultRender, formItemProps, fieldProps, ...rest },form) => {
+                // 搜索表单渲染
+                // value 和 onchange 会自动传递
+                return (
+                    <MyEditor
+                        {...fieldProps}
+                    >
+                    </MyEditor>
+                )
+            }
         },
         {
             title: '标签',

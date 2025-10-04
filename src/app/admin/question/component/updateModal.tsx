@@ -35,6 +35,7 @@ const UpdateModal: React.FC = (props: Props) => {
 
     return (
         <Modal
+            destroyOnClose={true}
             title={"更新题目"}
             footer={null}
             open={props.visible}
@@ -50,6 +51,7 @@ const UpdateModal: React.FC = (props: Props) => {
                     const success = await handleUpdate({
                         ...values,
                         id: props.oldData?.id,
+
                     });
                     if (success) {
                         props.onSubmit();

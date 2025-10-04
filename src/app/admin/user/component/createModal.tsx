@@ -32,7 +32,8 @@ const CreateModal: React.FC = (props: Props) => {
     return (
         <div>
             <Modal
-                title="新增用户"
+                destroyOnClose={true}
+                title="新增题目"
                 footer={null}
                 open={props.visible}
                 onCancel={() => {
