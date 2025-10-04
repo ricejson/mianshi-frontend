@@ -7,7 +7,7 @@ RUN apk add --no-cache libc6-compat
 
 # 复制依赖文件
 COPY package*.json ./
-# 安装所有依赖（包括开发依赖，因为需要构建）
+# 安所有依赖（包括开发依赖，因为需要构建）
 RUN npm ci
 
 # 复制项目源代码
@@ -35,7 +35,7 @@ RUN npm ci --only=production
 # 从构建阶段复制必要文件
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.* ./ 2>/dev/null || echo "No next.config file"
+COPY --from=builder /app/next.config.* ./ 2>/dev/null || echo No next.config file
 
 # 更改文件所有者
 RUN chown -R nextjs:nodejs /app/.next
