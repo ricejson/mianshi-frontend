@@ -153,6 +153,8 @@ declare namespace API {
   type getQuestionBankVOByIdUsingGETParams = {
     /** id */
     id?: number;
+    /** needQueryQuestionList */
+    needQueryQuestionList?: boolean;
   };
 
   type getQuestionVOByIdUsingGETParams = {
@@ -495,11 +497,13 @@ declare namespace API {
   };
 
   type QuestionBankVO = {
-    description?: string;
     createTime?: string;
+    description?: string;
+    editTime?: string;
     id?: number;
-    title?: string;
     picture?: string;
+    questionList?: QuestionVO[];
+    title?: string;
     updateTime?: string;
     user?: UserVO;
     userId?: number;
