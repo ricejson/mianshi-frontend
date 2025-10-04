@@ -12,6 +12,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "@/stores";
 import {useRouter} from "next/navigation";
 import Search from "antd/es/input/Search";
+import Link from "next/link";
 
 const MenuCard = () => {
     return (
@@ -154,7 +155,9 @@ export default ({children}) => {
                             if (props.isMobile) return [];
                             return [
                                 <SearchInput key="search"/>,
-                                <GithubFilled key="GithubFilled" />,
+                                <Link href={"https://github.com/ricejson"} target={"_blank"}>
+                                    <GithubFilled key="GithubFilled"/>
+                                </Link>,
                             ];
                         }}
                         headerTitleRender={(logo, title, _) => {
