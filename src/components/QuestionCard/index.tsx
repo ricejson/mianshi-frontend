@@ -1,10 +1,12 @@
 "use client";
 import './index.css';
-import React from "react";
+import React, {useEffect} from "react";
 import {Card} from "antd";
 import Title from "antd/es/typography/Title";
 import TagList from "@/components/TagList";
 import MyViewer from "@/components/MyViewer";
+import {userSignInUsingPost} from "@/api/userController";
+import useApp from "antd/es/app/useApp";
 
 interface Props {
     question: API.QuestionVO
@@ -12,6 +14,14 @@ interface Props {
 
 const QuestionCard: React.FC = (props: Props) => {
     const { question } = props;
+    // 执行用户签到
+    const userSignin = async () => {
+        await userSignInUsingPost();
+    }
+
+    useEffect(() => {
+        userSignin();
+    }, []);
     return (
         <div id={"question-card"}>
             <Card>

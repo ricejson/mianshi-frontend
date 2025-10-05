@@ -70,6 +70,21 @@ export async function getUserVoByIdUsingGet(
   });
 }
 
+/** getUserSignInDaya GET /api/user/getSignInDays */
+export async function getUserSignInDayaUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getUserSignInDayaUsingGETParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseListInt_>("/api/user/getSignInDays", {
+    method: "GET",
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 /** listUserByPage POST /api/user/list/page */
 export async function listUserByPageUsingPost(
   body: API.UserQueryRequest,
@@ -149,6 +164,14 @@ export async function userRegisterUsingPost(
       "Content-Type": "application/json",
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+/** userSignIn POST /api/user/signin */
+export async function userSignInUsingPost(options?: { [key: string]: any }) {
+  return request<API.BaseResponseBoolean_>("/api/user/signin", {
+    method: "POST",
     ...(options || {}),
   });
 }
