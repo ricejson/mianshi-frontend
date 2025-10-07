@@ -1,6 +1,6 @@
 "use client";
 
-import {GithubFilled, LogoutOutlined,} from '@ant-design/icons';
+import {GithubFilled, LogoutOutlined, UserOutlined,} from '@ant-design/icons';
 import type {ProSettings} from '@ant-design/pro-components';
 import {PageContainer, ProCard, ProConfigProvider, ProLayout,} from '@ant-design/pro-components';
 import {ConfigProvider, Divider, Dropdown, Input,} from 'antd';
@@ -143,8 +143,14 @@ export default ({children}) => {
                                                     icon: <LogoutOutlined />,
                                                     label: '退出登录',
                                                 },
+                                                {
+                                                    key: 'usercenter',
+                                                    icon: <UserOutlined />,
+                                                    label: <Link href={"/user/center"}>个人中心</Link>,
+                                                },
                                             ],
                                         }}
+
                                     >
                                         {dom}
                                     </Dropdown>
