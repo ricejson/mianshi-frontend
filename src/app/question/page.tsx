@@ -1,17 +1,17 @@
 "use server";
 import "./index.css";
-import {listQuestionVoByPageUsingPost} from "@/api/questionController";
+import {listQuestionVoByPageEsUsingPost, listQuestionVoByPageUsingPost} from "@/api/questionController";
 import QuestionTable from "@/components/QuestionTable";
 
 export default async function QuestionPage({searchParams}) {
     const { q: searchText } = searchParams;
     let defaultQuestionList = [];
     try {
-        const res = await listQuestionVoByPageUsingPost({
+        const res = await listQuestionVoByPageEsUsingPost({
             sortField: 'createTime',
             sortOrder: 'descend',
             pageSize: 200,
-            title: searchText,
+            searchText: searchText,
         });
         if (res && res.code === 0) {
             defaultQuestionList = res.data?.records ?? [];
