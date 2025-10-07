@@ -80,6 +80,24 @@ export async function listQuestionVoByPageUsingPost(
   );
 }
 
+/** listQuestionVOByPageEs POST /api/question/list/page/vo/es */
+export async function listQuestionVoByPageEsUsingPost(
+  body: API.QuestionQueryRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponsePageQuestionVO_>(
+    "/api/question/list/page/vo/es",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: body,
+      ...(options || {}),
+    }
+  );
+}
+
 /** updateQuestion POST /api/question/update */
 export async function updateQuestionUsingPost(
   body: API.QuestionUpdateRequest,

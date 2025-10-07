@@ -2,7 +2,7 @@
 import './index.css';
 import React, {useEffect, useRef, useState} from "react";
 import {ActionType, ProColumns, ProTable} from "@ant-design/pro-components";
-import {listQuestionVoByPageUsingPost} from "@/api/questionController";
+import {listQuestionVoByPageEsUsingPost, listQuestionVoByPageUsingPost} from "@/api/questionController";
 import TagList from "@/components/TagList";
 import {Form} from "antd";
 import Link from "next/link";
@@ -24,13 +24,19 @@ const QuestionTable: React.FC = (props: Props) => {
     }, [])
     const columns: ProColumns<API.QuestionVO>[] = [
         {
-            title: '名称',
+            title: '标题',
             dataIndex: 'title',
             valueType: 'text',
             ellipsis: true,
             render: (text, record, _, action) => {
                 return <Link href={`/question/${record.id}`}>{record.title}</Link>
             },
+        },
+        {
+            title: '搜索',
+            dataIndex: 'searchText',
+            valueType: 'text',
+            hideInTable: true,
         },
         {
             title: '标签',
@@ -53,7 +59,7 @@ const QuestionTable: React.FC = (props: Props) => {
                 dataSource={questionList}
                 form={{
                     initialValues: {
-                        title: searchText,
+                        searchText: searchText,
                     }
                 }}
                 request={async (params: API.QuestionQueryRequest, sort, filter) => {
@@ -61,7 +67,7 @@ const QuestionTable: React.FC = (props: Props) => {
                         setIsFirstLoad(false);
                         return;
                     }
-                    const res = await listQuestionVoByPageUsingPost({
+                    const res = await listQuestionVoByPageEsUsingPost({
                         ...params,
                         ...sort,
                         ...filter
