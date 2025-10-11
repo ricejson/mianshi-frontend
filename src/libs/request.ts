@@ -5,7 +5,7 @@ import axios from "axios";
  * @author ricejson
  */
 const myAxios = axios.create({
-    baseURL: "http://localhost:8101",
+    baseURL: "http://62.234.138.98:8101",
     timeout: 10000,
     withCredentials: true, // 携带cookie参数
 })
