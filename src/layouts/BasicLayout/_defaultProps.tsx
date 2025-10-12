@@ -21,6 +21,7 @@ export interface MenuItem {
             {
                 path: '/',
                 access: AccessEnum.NOT_LOGIN,
+                name: '首页',
             },
             {
                 path: '/user/login',
