@@ -29,15 +29,15 @@ const UserCenter: React.FC = () => {
                         style={{textAlign: "center"}}
                         title={<Title level={5} style={{marginRight: 200}}>个人信息</Title>}
                     >
-                        <Avatar src={loginUser.userAvatar} size={72}></Avatar>
+                        <Avatar src={loginUser.userAvatar || '/assets/default_user.png'} size={72}></Avatar>
                         <div style={{marginBottom: 12}}></div>
                         <Card.Meta
-                            title={<Title level={5} style={{marginBottom: 0}}>{loginUser.userName}</Title>}
+                            title={<Title level={5} style={{marginBottom: 0}}>{loginUser.userName || '无名氏'}</Title>}
                             description={
                                 <Paragraph
                                     type={"secondary"}
                                 >
-                                    {loginUser.userProfile}
+                                    {loginUser.userProfile || '这个人很懒，什么都没有留下'}
                                 </Paragraph>
                             }
                         />
