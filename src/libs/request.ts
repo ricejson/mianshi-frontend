@@ -6,6 +6,7 @@ import axios from "axios";
  */
 const myAxios = axios.create({
     baseURL: "https://mianshi-backend-107148-4-1326559147.sh.run.tcloudbase.com",
+    // baseURL: "http://localhost:8101",
     timeout: 10000,
     withCredentials: true, // 携带cookie参数
 })

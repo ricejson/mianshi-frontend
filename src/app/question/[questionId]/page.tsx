@@ -3,14 +3,17 @@ import './index.css';
 import React from "react";
 import {getQuestionVoByIdUsingGet} from "@/api/questionController";
 import QuestionCard from "@/components/QuestionCard";
+import {cookies} from "next/headers";
 
 const QuestionDetail: React.FC = async (props) => {
     const { questionId } = await props.params;
+    const cookieStore = cookies();
+    const mianshiCookie = cookieStore.get('mianshi')?.value;
     let question = undefined;
     try {
         const res = await getQuestionVoByIdUsingGet({
            id: questionId,
-        });
+        },{ headers: { Cookie: `mianshi=${mianshiCookie}` } });
         if (res && res.code === 0) {
             question = res.data;
         } else {

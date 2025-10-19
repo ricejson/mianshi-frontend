@@ -8,9 +8,12 @@ import Title from "antd/es/typography/Title";
 import {Content} from "antd/es/layout/layout";
 import QuestionCard from "@/components/QuestionCard";
 import Link from "next/link";
+import {cookies} from "next/headers";
 
 const BankQuestionDetailPage: React.FC = async (props) => {
     const { bankId, questionId } = await props.params;
+    const cookieStore = cookies();
+    const mianshiCookie = cookieStore.get('mianshi')?.value;
     // 题目列表
     let questionList = undefined;
     let question = undefined;
@@ -18,7 +21,7 @@ const BankQuestionDetailPage: React.FC = async (props) => {
         const res = await getQuestionBankVoByIdUsingGet({
             id: bankId,
             needQueryQuestionList: true,
-        });
+        },{ headers: { Cookie: `mianshi=${mianshiCookie}` } });
         if (res && res.code === 0) {
             let questionBank = res.data;
             if (questionBank && questionBank.questionList) {
